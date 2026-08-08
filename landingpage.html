@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MentorLink — Mentorship, Across Every Campus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0e14;
+    --panel: #10161f;
+    --panel-2: #141b26;
+    --border: rgba(255,255,255,0.08);
+    --text: #e6ecf2;
+    --muted: #8a95a3;
+    --gold: #ffb648;
+    --teal: #35d0c0;
+    --gold-dim: rgba(255,182,72,0.12);
+    --teal-dim: rgba(53,208,192,0.12);
+    --sans: 'Inter', sans-serif;
+    --display: 'Sora', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+  }
+  a{ color: inherit; text-decoration: none; }
+  ::selection{ background: var(--gold); color: #0a0e14; }
+  img, svg{ display:block; max-width:100%; }
+
+  .wrap{ max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(10,14,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap{ height: 68px; display:flex; align-items:center; justify-content:space-between; }
+  .brand{ display:flex; align-items:center; gap:10px; font-family: var(--display); font-weight:700; font-size:1.1rem; }
+  .brand .dot{ width:10px; height:10px; border-radius:3px; background: linear-gradient(135deg, var(--gold), var(--teal)); }
+  .navlinks{ display:flex; gap: 32px; font-size: 0.92rem; color: var(--muted); }
+  .navlinks a:hover{ color: var(--text); }
+  .nav-cta{
+    font-size: 0.88rem; font-weight:600; padding: 10px 20px; border-radius: 8px;
+    background: var(--text); color: var(--bg);
+  }
+  .nav-cta:hover{ background: var(--gold); }
+  @media (max-width: 760px){ .navlinks{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding: 88px 0 70px; position: relative; overflow: hidden; }
+  .hero-grid{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+  }
+  @media (max-width: 860px){ .hero-grid{ grid-template-columns: 1fr; } }
+
+  .eyebrow{
+    font-family: var(--mono); font-size: 0.78rem; color: var(--teal);
+    letter-spacing: 0.08em; display:flex; align-items:center; gap:8px; margin-bottom: 18px;
+  }
+  .eyebrow::before{ content:''; width:6px; height:6px; border-radius:50%; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+
+  .hero h1{
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 5vw, 3.3rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 .accent{
+    background: linear-gradient(100deg, var(--gold), var(--teal));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.lead{ margin-top: 20px; color: var(--muted); font-size: 1.05rem; max-width: 480px; }
+  .hero-cta{ margin-top: 30px; display:flex; gap: 14px; flex-wrap: wrap; }
+  .btn{
+    font-size: 0.92rem; font-weight: 600; padding: 13px 24px; border-radius: 9px;
+    display: inline-flex; align-items:center; gap:8px; transition: all 0.2s ease;
+    border: 1px solid var(--border);
+  }
+  .btn-primary{ background: linear-gradient(100deg, var(--gold), var(--teal)); color:#0a0e14; border:none; }
+  .btn-primary:hover{ filter: brightness(1.08); transform: translateY(-1px); }
+  .btn-ghost{ color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--teal); color: var(--teal); }
+
+  .hero-stats{ display:flex; gap: 30px; margin-top: 40px; }
+  .hero-stat .n{ font-family: var(--display); font-size: 1.5rem; font-weight: 700; }
+  .hero-stat .l{ font-size: 0.78rem; color: var(--muted); }
+
+  /* Signature visual: connection graph */
+  .graph-box{
+    aspect-ratio: 1/0.85;
+    border-radius: 20px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .graph-box svg{ width:100%; height:100%; }
+  .graph-label{
+    position: absolute; bottom: 16px; left: 16px;
+    font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+    background: rgba(10,14,20,0.7); padding: 6px 10px; border-radius: 6px;
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  .section{ padding: 90px 0; border-top: 1px solid var(--border); }
+  .section-head{ max-width: 560px; margin-bottom: 50px; }
+  .section-head h2{ font-family: var(--display); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; letter-spacing: -0.01em; }
+  .section-head p{ color: var(--muted); margin-top: 12px; }
+
+  /* ---------- HOW IT WORKS (real sequence, numbering justified) ---------- */
+  .steps{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 800px){ .steps{ grid-template-columns: 1fr; } }
+  .step{ position: relative; padding: 30px 26px; background: var(--panel); border: 1px solid var(--border); border-radius: 14px; }
+  .step .step-num{ font-family: var(--mono); font-size: 0.8rem; color: var(--gold); margin-bottom: 16px; }
+  .step h3{ font-family: var(--display); font-size: 1.1rem; margin-bottom: 10px; }
+  .step p{ color: var(--muted); font-size: 0.92rem; }
+  .step-connector{
+    position:absolute; top: 30px; right: -24px; width: 24px; height: 1px;
+    background: var(--border);
+  }
+  @media (max-width: 800px){ .step-connector{ display:none; } }
+
+  /* ---------- FEATURES ---------- */
+  .features{ display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+  .feature{ padding: 26px; background: var(--panel); border: 1px solid var(--border); border-radius: 14px; transition: border-color 0.2s ease, transform 0.2s ease; }
+  .feature:hover{ border-color: var(--teal); transform: translateY(-3px); }
+  .feature-icon{
+    width: 38px; height: 38px; border-radius: 9px; margin-bottom: 16px;
+    background: var(--teal-dim); display:flex; align-items:center; justify-content:center;
+    color: var(--teal); font-family: var(--mono); font-weight:600;
+  }
+  .feature h3{ font-size: 1.02rem; margin-bottom: 8px; }
+  .feature p{ font-size: 0.88rem; color: var(--muted); }
+
+  /* ---------- AUDIENCE SPLIT ---------- */
+  .split{ display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 760px){ .split{ grid-template-columns: 1fr; } }
+  .split-card{ padding: 36px; border-radius: 16px; border: 1px solid var(--border); }
+  .split-card.students{ background: linear-gradient(160deg, var(--gold-dim), transparent); }
+  .split-card.colleges{ background: linear-gradient(160deg, var(--teal-dim), transparent); }
+  .split-card .tag{ font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; margin-bottom: 14px; display:inline-block; }
+  .split-card.students .tag{ color: var(--gold); }
+  .split-card.colleges .tag{ color: var(--teal); }
+  .split-card h3{ font-family: var(--display); font-size: 1.4rem; margin-bottom: 12px; }
+  .split-card p{ color: var(--muted); font-size: 0.92rem; margin-bottom: 20px; }
+  .split-card ul{ list-style: none; }
+  .split-card li{ font-size: 0.88rem; color: var(--text); padding: 8px 0; border-top: 1px solid var(--border); }
+  .split-card li:first-child{ border-top: none; }
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    text-align: center; padding: 80px 24px; border-radius: 24px;
+    background: var(--panel); border: 1px solid var(--border); margin: 0 24px;
+    max-width: 1092px; margin: 0 auto;
+  }
+  .cta-band h2{ font-family: var(--display); font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 700; margin-bottom: 14px; }
+  .cta-band p{ color: var(--muted); max-width: 480px; margin: 0 auto 30px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ border-top: 1px solid var(--border); padding: 40px 0; }
+  footer .wrap{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 16px; }
+  footer p{ font-family: var(--mono); font-size: 0.76rem; color: var(--muted); }
+  .footer-links{ display:flex; gap: 22px; font-size: 0.82rem; color: var(--muted); }
+  .footer-links a:hover{ color: var(--teal); }
+
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> MentorLink</div>
+    <div class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#audience">Who it's for</a>
+    </div>
+    <a href="#cta" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Multi-college mentorship network</div>
+      <h1>Mentorship shouldn't stop<br>at your <span class="accent">campus gate.</span></h1>
+      <p class="lead">MentorLink connects students with mentors across colleges — role-based access, structured course groups, and real-time notifications, all in one platform.</p>
+      <div class="hero-cta">
+        <a href="#cta" class="btn btn-primary">Request a Demo</a>
+        <a href="#how" class="btn btn-ghost">See How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="n">12+</div><div class="l">Colleges onboarded</div></div>
+        <div class="hero-stat"><div class="n">3,400+</div><div class="l">Active mentees</div></div>
+        <div class="hero-stat"><div class="n">98%</div><div class="l">Uptime</div></div>
+      </div>
+    </div>
+    <div class="graph-box">
+      <svg viewBox="0 0 400 340" fill="none">
+        <line x1="80" y1="70" x2="200" y2="150" stroke="#8a95a3" stroke-opacity="0.35"/>
+        <line x1="200" y1="150" x2="330" y2="90" stroke="#8a95a3" stroke-opacity="0.35"/>
+        <line x1="200" y1="150" x2="140" y2="250" stroke="#8a95a3" stroke-opacity="0.35"/>
+        <line x1="200" y1="150" x2="300" y2="240" stroke="#8a95a3" stroke-opacity="0.35"/>
+        <line x1="80" y1="70" x2="140" y2="250" stroke="#8a95a3" stroke-opacity="0.2"/>
+        <line x1="330" y1="90" x2="300" y2="240" stroke="#8a95a3" stroke-opacity="0.2"/>
+        <circle cx="200" cy="150" r="14" fill="#35d0c0"/>
+        <circle cx="80" cy="70" r="9" fill="#ffb648"/>
+        <circle cx="330" cy="90" r="9" fill="#ffb648"/>
+        <circle cx="140" cy="250" r="9" fill="#ffb648"/>
+        <circle cx="300" cy="240" r="9" fill="#ffb648"/>
+      </svg>
+      <div class="graph-label">// mentor–mentee network, live</div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How MentorLink Works</h2>
+      <p>From sign-up to your first session, in three steps.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-connector"></div>
+        <div class="step-num">01</div>
+        <h3>Create your profile</h3>
+        <p>Sign up as a student or mentor, verify your college, and set your interests or areas of expertise.</p>
+      </div>
+      <div class="step">
+        <div class="step-connector"></div>
+        <div class="step-num">02</div>
+        <h3>Get matched</h3>
+        <p>Our grouping engine pairs you by course, goals, and availability — across any partner campus.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Start mentoring</h3>
+        <p>Message, schedule sessions, and track progress with built-in notifications and reminders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Built for how mentorship actually works</h2>
+      <p>Every feature maps to something a mentor, mentee, or admin needs on a normal day.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">RB</div>
+        <h3>Role-based access</h3>
+        <p>Students, mentors, and college admins each see exactly what they need — nothing more.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">CG</div>
+        <h3>Course grouping</h3>
+        <p>Automatic grouping by course and cohort keeps mentorship relevant and organized.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">NT</div>
+        <h3>Real-time notifications</h3>
+        <p>Session reminders, new matches, and messages delivered the moment they happen.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">AD</div>
+        <h3>Admin dashboards</h3>
+        <p>College admins get full visibility into engagement, matching health, and usage.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">MC</div>
+        <h3>Multi-college network</h3>
+        <p>Mentorship isn't limited to your own campus — connect across partner institutions.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">SC</div>
+        <h3>Secure by default</h3>
+        <p>Verified sign-ups and permissioned data keep every conversation private.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="audience">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Who it's for</h2>
+      <p>MentorLink works differently depending on which side of the mentorship you're on.</p>
+    </div>
+    <div class="split">
+      <div class="split-card students">
+        <span class="tag">FOR STUDENTS</span>
+        <h3>Find a mentor who's been where you're going.</h3>
+        <p>Get matched with mentors from your field, on your campus or another, and get real answers.</p>
+        <ul>
+          <li>Personalized mentor matching</li>
+          <li>Direct messaging & session scheduling</li>
+          <li>Track your progress over time</li>
+        </ul>
+      </div>
+      <div class="split-card colleges">
+        <span class="tag">FOR COLLEGES</span>
+        <h3>Run mentorship at scale, without the spreadsheet chaos.</h3>
+        <p>Give your institution a structured, trackable mentorship program in days, not semesters.</p>
+        <ul>
+          <li>Admin dashboard with engagement analytics</li>
+          <li>Course-based cohort management</li>
+          <li>Cross-institution partnership support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="cta">
+  <div class="cta-band">
+    <h2>Bring MentorLink to your campus</h2>
+    <p>Set up a pilot with your college in under a week — no credit card, no long onboarding.</p>
+    <a href="mailto:hello@mentorlink.app" class="btn btn-primary">Request a Demo</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 MentorLink. Built by Mayank Kumar Singh.</p>
+    <div class="footer-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#audience">Who it's for</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
