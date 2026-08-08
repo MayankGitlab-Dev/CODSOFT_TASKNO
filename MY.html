@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mayank Kumar Singh — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #08080d;
+    --bg-panel: #101018;
+    --bg-panel-2: #14141f;
+    --border: rgba(255,255,255,0.08);
+    --text: #e9e9f2;
+    --muted: #8a8a9e;
+    --pink: #ff3d92;
+    --teal: #2ee6c8;
+    --pink-dim: rgba(255,61,146,0.15);
+    --teal-dim: rgba(46,230,200,0.15);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Ambient gradient orbs */
+  .orb{
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+  .orb-1{ width: 420px; height: 420px; background: var(--pink); top: -120px; left: -100px; }
+  .orb-2{ width: 480px; height: 480px; background: var(--teal); bottom: -150px; right: -120px; }
+  .orb-3{ width: 300px; height: 300px; background: var(--pink); top: 45%; right: 10%; opacity: 0.25; }
+
+  section, header, footer{ position: relative; z-index: 1; }
+
+  a{ color: inherit; text-decoration: none; }
+
+  ::selection{ background: var(--pink); color: #08080d; }
+
+  /* Glassmorphism helper */
+  .glass{
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 16px;
+  }
+
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .eyebrow::before{
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 12px var(--teal);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    background: rgba(8,8,13,0.7);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap{
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo{
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo .knight{ color: var(--pink); }
+  .navlinks{ display: flex; gap: 28px; font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+  .navlinks a:hover{ color: var(--teal); }
+  @media (max-width: 640px){ .navlinks{ display:none; } }
+
+  /* ---------- HEADER / HERO ---------- */
+  header.hero{
+    min-height: 92vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 0 60px;
+  }
+  .hero-tag{
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--pink);
+    letter-spacing: 0.06em;
+    margin-bottom: 22px;
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .accent{
+    background: linear-gradient(100deg, var(--pink), var(--teal));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.lead{
+    margin-top: 22px;
+    max-width: 560px;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+  .terminal-line{
+    margin-top: 34px;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: inline-block;
+    max-width: 100%;
+  }
+  .terminal-line .prompt{ color: var(--teal); }
+  .terminal-line .cursor{
+    display: inline-block;
+    width: 8px; height: 1em;
+    background: var(--pink);
+    margin-left: 4px;
+    animation: blink 1s steps(1) infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes blink{ 50%{ opacity: 0; } }
+
+  .hero-cta{ margin-top: 34px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn{
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 12px 22px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary{
+    background: linear-gradient(100deg, var(--pink), var(--teal));
+    color: #08080d;
+    font-weight: 600;
+    border: none;
+  }
+  .btn-primary:hover{ filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-ghost{ color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--teal); color: var(--teal); }
+
+  /* ---------- SECTION TITLES ---------- */
+  .section{ padding: 100px 0; }
+  .section-title{
+    font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 46px;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (max-width: 700px){ .about-grid{ grid-template-columns: 1fr; } }
+
+  .avatar{
+    width: 220px; height: 220px;
+    border-radius: 20px;
+    background: linear-gradient(150deg, var(--pink-dim), var(--teal-dim));
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar::after{
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, transparent, rgba(0,0,0,0.35));
+  }
+  .avatar span{ position: relative; z-index: 1; }
+
+  .about-bio p{ color: var(--muted); margin-bottom: 16px; }
+  .about-bio strong{ color: var(--text); }
+  .badges{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .badge{
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--teal);
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+  }
+  .skill-card{
+    padding: 22px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .skill-card:hover{ transform: translateY(-3px); border-color: var(--pink); }
+  .skill-card .num{
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--pink);
+    margin-bottom: 10px;
+  }
+  .skill-card h3{ font-size: 1.05rem; margin-bottom: 8px; }
+  .skill-card p{ font-size: 0.88rem; color: var(--muted); }
+
+  /* ---------- PROJECTS ---------- */
+  .projects-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+  }
+  .project-card{
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .project-thumb{
+    height: 160px;
+    background: linear-gradient(135deg, var(--bg-panel-2), var(--bg-panel));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .project-thumb::before{
+    content: '</>';
+    font-size: 2.2rem;
+    color: var(--pink);
+    opacity: 0.35;
+  }
+  .project-body{ padding: 22px; flex: 1; display: flex; flex-direction: column; }
+  .project-body h3{ font-size: 1.1rem; margin-bottom: 8px; }
+  .project-body p{ color: var(--muted); font-size: 0.9rem; flex: 1; }
+  .project-tags{ display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+  .tag{
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--teal);
+    background: var(--teal-dim);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .project-link{
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--pink);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .project-link:hover{ text-decoration: underline; }
+
+  /* ---------- RESUME ---------- */
+  .resume-box{
+    padding: 46px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .resume-box h3{ font-size: 1.3rem; margin-bottom: 8px; }
+  .resume-box p{ color: var(--muted); font-size: 0.92rem; max-width: 420px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+  }
+  .contact-card{
+    padding: 26px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .contact-card .label{
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--teal);
+    letter-spacing: 0.05em;
+  }
+  .contact-card .value{ font-size: 1.02rem; font-weight: 500; }
+  .contact-card .value:hover{ color: var(--pink); }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top: 1px solid var(--border);
+    padding: 34px 0;
+  }
+  footer .wrap{
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 14px;
+  }
+  footer p{ font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+  .footer-links{ display: flex; gap: 20px; font-family: var(--mono); font-size: 0.78rem; }
+  .footer-links a{ color: var(--muted); }
+  .footer-links a:hover{ color: var(--teal); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .cursor{ animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="knight">♞</span> KrMayank021</div>
+    <div class="navlinks">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#resume">resume</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-tag">// underestimated by design</div>
+    <h1>Mayank Kumar Singh<br><span class="accent">Software Developer · AI Engineer</span></h1>
+    <p class="lead">B.Tech CSE student building at the intersection of security, systems, and AI — currently interning in digital forensics at Delhi Police's Cyber Crime Unit.</p>
+    <div class="terminal-line">
+      <span class="prompt">$</span> whoami<br>
+      <span class="prompt">></span> dark_horse — resilient, underestimated, relentless<span class="cursor"></span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="eyebrow">01 / About</div>
+    <h2 class="section-title">Who I Am</h2>
+    <div class="about-grid">
+      <div class="avatar"><span>MS</span></div>
+      <div class="about-bio">
+        <p><strong>Mayank Kumar Singh</strong> — B.Tech CSE student at USICT, GGSIPU, admitted via lateral entry with <strong>AIR 5 in All India LEET</strong> and <strong>AIR 10 in DTU LEET</strong>. I build software at the crossroads of cybersecurity, embedded systems, and AI.</p>
+        <p>Currently interning as a <strong>Cybersecurity & Digital Forensics Analyst</strong> at the National Cyber Crime Forensic Lab (IFSO/CCU), Delhi Police, and serving as a Campus Ambassador for Think, IIT Delhi.</p>
+        <p>My work spans full-stack development, digital forensics, and hardware-software prototyping — with a habit of showing up as the dark horse in every room.</p>
+        <div class="badges">
+          <span class="badge">Cybersecurity</span>
+          <span class="badge">Digital Forensics</span>
+          <span class="badge">Full-Stack Dev</span>
+          <span class="badge">AI / ML</span>
+          <span class="badge">Embedded Systems</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <div class="wrap">
+    <div class="eyebrow">02 / Skills</div>
+    <h2 class="section-title">What I Work With</h2>
+    <div class="skills-grid">
+      <div class="glass skill-card">
+        <div class="num">01</div>
+        <h3>Web Development</h3>
+        <p>HTML, CSS, JavaScript, React — building responsive, production-ready interfaces.</p>
+      </div>
+      <div class="glass skill-card">
+        <div class="num">02</div>
+        <h3>Cyber Forensics</h3>
+        <p>Digital evidence analysis, blockchain tracing, NCRP/JCCT frameworks, IT Act 2000.</p>
+      </div>
+      <div class="glass skill-card">
+        <div class="num">03</div>
+        <h3>Embedded Systems</h3>
+        <p>ESP32, BLE mesh networking, FPGA/RISC-V prototyping.</p>
+      </div>
+      <div class="glass skill-card">
+        <div class="num">04</div>
+        <h3>Backend & Databases</h3>
+        <p>Node.js, role-based access systems, multi-tenant platform design.</p>
+      </div>
+      <div class="glass skill-card">
+        <div class="num">05</div>
+        <h3>AI & Automation</h3>
+        <p>Applied AI tooling, workflow automation, and intelligent product features.</p>
+      </div>
+      <div class="glass skill-card">
+        <div class="num">06</div>
+        <h3>Problem Solving</h3>
+        <p>Discrete mathematics, networking fundamentals, competitive analytical thinking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="wrap">
+    <div class="eyebrow">03 / Projects</div>
+    <h2 class="section-title">Selected Work</h2>
+    <div class="projects-grid">
+      <div class="glass project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <h3>MentorLink</h3>
+          <p>A multi-college mentorship and communication platform with role-based access, admin panels, course grouping, and real-time notifications.</p>
+          <div class="project-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">RBAC</span></div>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+      <div class="glass project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <h3>Project Raksha</h3>
+          <p>A women's safety wearable concept using ESP32 and BLE mesh networking for offline emergency GPS alerts, built for the College Youth Ideathon (IIT Delhi).</p>
+          <div class="project-tags"><span class="tag">ESP32</span><span class="tag">BLE Mesh</span><span class="tag">Hardware</span></div>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+      <div class="glass project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <h3>Personal Portfolio</h3>
+          <p>This site — a dark, glassmorphic portfolio built from scratch with vanilla HTML/CSS, deployed on GitHub Pages.</p>
+          <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">GitHub Pages</span></div>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+      <div class="glass project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <h3>Form Validation System</h3>
+          <p>A robust client-side validation library handling edge cases across common web form patterns.</p>
+          <div class="project-tags"><span class="tag">JavaScript</span></div>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="resume">
+  <div class="wrap">
+    <div class="eyebrow">04 / Resume</div>
+    <h2 class="section-title">Download My Resume</h2>
+    <div class="glass resume-box">
+      <div>
+        <h3>Mayank_Kumar_Singh_Resume.pdf</h3>
+        <p>ATS-friendly resume covering education, internships, and project experience.</p>
+      </div>
+      <a href="./Mayank_Kumar_Singh_Resume.pdf" download class="btn btn-primary">Download PDF ↓</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="eyebrow">05 / Contact</div>
+    <h2 class="section-title">Let's Connect</h2>
+    <div class="contact-grid">
+      <div class="glass contact-card">
+        <span class="label">EMAIL</span>
+        <a class="value" href="mailto:your.email@example.com">your.email@example.com</a>
+      </div>
+      <div class="glass contact-card">
+        <span class="label">PHONE</span>
+        <a class="value" href="tel:+910000000000">+91 00000 00000</a>
+      </div>
+      <div class="glass contact-card">
+        <span class="label">LINKEDIN</span>
+        <a class="value" href="#" target="_blank">linkedin.com/in/krmayank021</a>
+      </div>
+      <div class="glass contact-card">
+        <span class="label">GITHUB</span>
+        <a class="value" href="#" target="_blank">github.com/krmayank021</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Mayank Kumar Singh. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#top">Back to top</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
